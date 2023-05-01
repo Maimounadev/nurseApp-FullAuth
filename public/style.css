@@ -1,0 +1,17 @@
+body{
+    padding-top:80px;
+    word-wrap:break-word;
+    color: lightblue;
+    background-image: url('img/nurse.png')
+  }
+ h1{
+  color: rgb(66, 66, 213);
+ }
+ body > div > div > form > button{
+ color: aqua;
+ }
+
+
+ img{
+    width: 30%;
+}

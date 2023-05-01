@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+    <title>Nurse App</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-heartbeat"></span> Nurse App</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- Patient Vitals  -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Patient Vital Signs</h3>
+
+                <form action="/messages" method="POST">
+                    <div class="form-group">
+                        <label for="name">Patient Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight">Weight (Pounds)</label>
+                        <input type="text" class="form-control" id="weight" name="weight" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="text" class="form-control" id="height" name="height" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blood_pressure">Blood Pressure (mmHg)</label>
+                        <input type="text" class="form-control" id="blood_pressure" name="bloodpressure" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="heart_rate">Heart Rate (bpm)</label>
+                        <input type="number" min="0" max="999" class="form-control" id="heart_rate" name="heartrate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nurse">Nurse On Shift</label>
+                       <h2><input type="text" class="form-control" id="nurse" name="nurse" required></h2>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Vitals Documentation -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-envelope"></span> Patient Vital Signs</h3>
+
+                <ul class="messages">
+                    <% for(var i=0; i<messages.length; i++) {%>
+                    <li class="message">
+                        <p>Name: <span><%= messages[i].name %></span></p>
+                       <p>Height: <span><%= messages[i].height %></span></p>
+                        <p>Weight: <span><%= messages[i].weight %></span></p>
+                        <p>BP: <span><%= messages[i].bloodpressure %></span></p>
+                        <p>HR: <span><%= messages[i].heartrate %></span></p>
+                        <p>Nurse On shift: <span><%= messages[i].nurse %></span></p>
+                       
+                        <span><i id="<%=messages[i]._id%>"class= "fa fa-trash" aria-hidden="true"></i></span>
+                    </li>
+                    <% } %>
+                </ul>
+
+
+                <!-- Shift Messages  -->
+                <div class="form-group">
+                    <form action="/input" method="POST">
+                      <label for="shift">Shift </label>
+                   
+                      <label for="shift1_input">Shift 1 Message</label>
+                      <input type="text" name="shift1_input">
+                      <br><br>
+                      <label for="shift2_input">Shift 2 Message</label>
+                      <input type="text" name="shift2_input">
+                      <br><br>
+                      <label for="shift3_input">Shift 3 Message</label>
+                      <input type="text" name="shift3_input">
+                      <br><br>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  </div>
+                  
+                
+                
+
+
+                
+
+                <form action="/messages" method="POST">
+                    <div class="form-group">
+                        <label for="
+
+
+
+
