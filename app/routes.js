@@ -11,15 +11,29 @@ module.exports = function(app, passport, db) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('nurse').find().toArray((err, result) => {
-          if (err) return console.log(err)
-          res.render('profile.ejs', {
-            user : req.user,
-            messages: result
-          })
-        })
+      let shifts 
+      let nurse
+      db.collection('nurse').find().toArray((err, result) => {
+          if (err) return console.log(err);
+        
+      nurse = result
+      db.collection('shift').find().toArray((err, resultTwo) => {
+        if (err) return console.log(err);
+      
+    shifts = resultTwo
+    console.log(shifts, nurse)
+      res.render('profile.ejs', {
+        user: req.user,
+        shifts: shifts,
+        messages: nurse
+        // messages is the nurse collection 
     });
-
+    });
+      });
+     
+    
+  });
+  
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout(() => {
@@ -30,36 +44,54 @@ module.exports = function(app, passport, db) {
 
 // message board routes ===============================================================
 
-    app.post('/messages', (req, res) => {
+    app.post('/patient', (req, res) => {
       db.collection('nurse').save({name: req.body.name, weight: req.body.weight, height: req.body.height, bloodpressure: req.body.bloodpressure ,heartrate: req.body.heartrate, nurse: req.body.nurse}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
       })
     })
-     
-
-    app.put('/messages', (req, res) => {
-      db.collection('nurse')
-      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-        $set: {
-          thumbUp:req.body.thumbUp + 1
-        }
-      }, {
-        sort: {_id: -1},
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
+  
+  app.post('/input', (req, res) => {
+      db.collection('shift').save({user: req.body.user, shift: req.body.shift}, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        res.redirect('/profile')
       })
     })
 
-    app.delete('/messages', (req, res) => {
-      db.collection('nurse').deleteMany({}, (err, result) => {
+  app.put('/thumbsUp', (req, res) => {
+    const _id = ObjectId(req.body._id)
+    db.collection('nurse')
+    .findOneAndUpdate({_id}, {
+      $inc: {
+        thumbUp: 1
+      }
+    }, {
+      sort: {_id: -1},
+      // upsert: true
+    }, (err, result) => {
+      if (err) return res.send(err)
+      res.send(result)
+    })
+  })
+
+    app.delete('/patient', (req, res) => {
+      const _id = ObjectId(req.body._id)
+      db.collection('nurse').findOneAndDelete({ _id}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })
     })
+
+    app.delete('/input', (req, res) => {
+      const _id = ObjectId(req.body._id)
+      db.collection('shift').findOneAndDelete({ _id}, (err, result) => {
+        if (err) return res.send(500, err)
+        res.send('Message deleted!')
+      })
+    })
+
 
     // app.delete('/messages', (req, res) => {
     //   db.collection('nurse').findOneAndDelete({ _id: ObjectId(req.body.id)}, (err, result) => {
@@ -70,18 +102,26 @@ module.exports = function(app, passport, db) {
     // })
 
 // Shift messages
-app.post('/input', (req, res) => {
-  db.collection('shift').save({
-    shift: req.body.Shifts,
-    shift1_input: req.body.shift1_input,
-    shift2_input: req.body.shift2_input,
-    shift3_input: req.body.shift3_input
-  }, (err, result) => {
-    if (err) return console.log(err)
-    console.log('saved to database')
-    res.redirect('/profile')
-  })
-})
+// app.post('/input', (req, res) => {
+//   db.collection('shift').insertOne({
+//     shift: req.body.Shifts,
+//     message: req.body.message
+//   }, (err, result) => {
+//     if (err) return console.log(err)
+//     console.log('saved to database')
+//     res.redirect('/profile')
+//   })
+// })
+
+// app.post('/delete', (req, res) => {
+//   db.collection('shift').deleteOne({
+//     _id: ObjectId(req.body.id)
+//   }, (err, result) => {
+//     if (err) return res.send(500, err)
+//     res.redirect('/profile')
+//   })
+// })
+
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================

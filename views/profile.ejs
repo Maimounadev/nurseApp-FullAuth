@@ -22,7 +22,7 @@
             <div class="well">
                 <h3><span class="fa fa-user"></span> Patient Vital Signs</h3>
 
-                <form action="/messages" method="POST">
+                <form action="/patient" method="POST">
                     <div class="form-group">
                         <label for="name">Patient Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -68,39 +68,72 @@
                         <p>HR: <span><%= messages[i].heartrate %></span></p>
                         <p>Nurse On shift: <span><%= messages[i].nurse %></span></p>
                        
-                        <span><i id="<%=messages[i]._id%>"class= "fa fa-trash" aria-hidden="true"></i></span>
+                        <span><i class="fa fa-trash" aria-hidden="true" data-id="<%= messages[i]._id %>"></i></span>
                     </li>
                     <% } %>
                 </ul>
 
 
                 <!-- Shift Messages  -->
-                <div class="form-group">
-                    <form action="/input" method="POST">
-                      <label for="shift">Shift </label>
-                   
-                      <label for="shift1_input">Shift 1 Message</label>
-                      <input type="text" name="shift1_input">
-                      <br><br>
-                      <label for="shift2_input">Shift 2 Message</label>
-                      <input type="text" name="shift2_input">
-                      <br><br>
-                      <label for="shift3_input">Shift 3 Message</label>
-                      <input type="text" name="shift3_input">
-                      <br><br>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                  </div>
-                  
-                
+                <!-- Shift 1 -->
+<h2>Shift 1</h2>
+<ul>
+    
+
+        
+        <form action="/input" method="POST">
+            <input type="text" value="<%= user.local.email %>" name="user">
+            <input type="text" placeholder="message" name="shift">
+            <button type="submit">Submit</button>
+            
+          </form>
+    
+</ul>
+
+<!-- Shift 2 -->
+<h2>Shift 2</h2>
+<ul>
+    
+       
+        <form action="/input" method="POST">
+            <input type="text"  name="user">
+            <input type="text" placeholder="message" name="shift">
+            <button type="submit">Submit</button>
+          </form>
+   
+</ul>
+
+<!-- Shift 3 -->
+<h2>Shift 3</h2>
+<ul>
+    
+        <form action="/input" method="POST">
+            <input type="text" value="<%= user.local.email %>" name="user">
+            <input type="text" placeholder="message" name="shift">
+            <button type="submit">Submit</button>
+          </form>
+    
+</ul>
+    <ul>
+    <% for(var i=0; i<shifts.length; i++) {%>
+        <li class="message">
+            <p>Name: <span><%= shifts[i].user %></span></p>
+           <p>Shift: <span><%= shifts[i].shift %></span></p>
+            
+        
+           <span><i class="fa fa-trash" aria-hidden="true" data-id="<%= shifts[i]._id %>"></i></span>
+        </li>
+        <% } %>
+    </ul>
+<script src="main.js"></script>
+</body>
+</html>
+
                 
 
-
-                
-
-                <form action="/messages" method="POST">
+                <!-- <form action="/messages" method="POST">
                     <div class="form-group">
-                        <label for="
+                        <label for=" -->
 
 
 
